@@ -50,6 +50,8 @@ namespace Veterinaria.Web.Data.Entities
         public string FullName => $"{FirstName} {LastName}";
         [Display(Name = "Owner")]
         public string FullNamewithDocument => $"{FirstName} {LastName} - {Document}";
+        public ICollection<Pet> Pets { get; set; }
+        public ICollection<Agenda> Agendas { get; set; }
 
     }
 }
