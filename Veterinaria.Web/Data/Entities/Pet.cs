@@ -29,7 +29,6 @@ namespace Veterinaria.Web.Data.Entities
 
         [Display(Name = "Born")]
         [Required(ErrorMessage = V)]
-        [DataType(DataType.DateTime)]
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]
         public DateTime Born { get; set; }
 
