@@ -22,14 +22,13 @@ namespace Veterinaria.Web.Data.Entities
 
         public string ImageFullPath => string.IsNullOrEmpty(ImageUrl)
     ? null
-    : $"https://myvetwebmds.azurewebsites.net{ImageUrl.Substring(1)}";
+    : $"https://mdsveterinaria.azurewebsites.net{ImageUrl.Substring(1)}";
 
         [MaxLength(50, ErrorMessage = "The {0} field can not have more than {1} characters.")]
         public string Race { get; set; }
 
         [Display(Name = "Born")]
         [Required(ErrorMessage = V)]
-        [DataType(DataType.DateTime)]
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]
         public DateTime Born { get; set; }
 
