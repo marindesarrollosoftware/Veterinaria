@@ -21,5 +21,7 @@ namespace Veterinaria.Common.Models
 
         public ICollection<PetResponse> Pets { get; set; }
 
+        public string FullName => $"{FirstName} {LastName}";
+
     }
 }
