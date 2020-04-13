@@ -17,6 +17,7 @@ namespace Veterinaria.Prism
 
         protected override async void OnInitialized()
         {
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MjM4MDAzQDMxMzgyZTMxMmUzMFFwYm5hV3BIWXFaclhKMW0wZWJ6eHZ6RWdmaUxLUXB1b3VCVmsvTnRZalU9");
             InitializeComponent();
 
             await NavigationService.NavigateAsync("NavigationPage/LoginPage");
@@ -29,6 +30,9 @@ namespace Veterinaria.Prism
             containerRegistry.RegisterForNavigation<LoginPage, LoginPageViewModel>();
             containerRegistry.RegisterForNavigation<PetsPage, PetsPageViewModel>();
             containerRegistry.RegisterForNavigation<PetPage, PetPageViewModel>();
+            containerRegistry.RegisterForNavigation<HistoriesPage, HistoriesPageViewModel>();
+            containerRegistry.RegisterForNavigation<HistoryPage, HistoryPageViewModel>();
+            containerRegistry.RegisterForNavigation<PetTabbedPage, PetTabbedPageViewModel>();
         }
     }
 }
