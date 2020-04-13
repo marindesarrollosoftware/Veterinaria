@@ -6,37 +6,33 @@
              x:Class="Veterinaria.Prism.Views.LoginPage"
              Title="{Binding Title}">
     <ScrollView>
-        <StackLayout
+        <AbsoluteLayout>
+            <StackLayout
+                AbsoluteLayout.LayoutBounds="0,0,1,1"
+                AbsoluteLayout.LayoutFlags="All"
         Padding="10">
-            <Image HeightRequest="230"
+                <Image HeightRequest="230"
                    Source="logo"/>
-            <Label
+                <Label
             Text="Email"></Label>
-            <Entry
+                <Entry
             Keyboard="Email"
             Placeholder="Enter your Email.."
             Text="{Binding Email}"></Entry>
 
-            <Label
+                <Label
             Text="Password"></Label>
-            <Entry
+                <Entry
             IsPassword="True"
             Placeholder="Enter your Password.."
             Text="{Binding Password}"></Entry>
 
-            <!--<ActivityIndicator 
+                <!--<ActivityIndicator 
             VerticalOptions="CenterAndExpand"
             IsRunning="{Binding IsRunning}"></ActivityIndicator>-->
-            <busyindicator:SfBusyIndicator  
-                	AnimationType="Gear"
-                	HorizontalOptions="Center"
-                	IsVisible="{Binding IsRunning}"
-                	Title="Loading..."
-                	VerticalOptions="Center"
-                	ViewBoxWidth="80"
-                	ViewBoxHeight="80" />
+             
 
-            <Button
+                <Button
             BackgroundColor="Navy"
             IsEnabled="{Binding IsEnabled}"
             Command="{Binding LoginCommand}"
@@ -45,7 +41,19 @@
             HeightRequest="46"
                 VerticalOptions="EndAndExpand"></Button>
 
-        </StackLayout>
+            </StackLayout>
+            <busyindicator:SfBusyIndicator  
+                	AnimationType="Gear"
+                AbsoluteLayout.LayoutBounds=".5,.5,.5,.5"
+                AbsoluteLayout.LayoutFlags="All"
+                BackgroundColor="Silver"
+                	HorizontalOptions="Center"
+                	IsVisible="{Binding IsRunning}"
+                	Title="Loading..."
+                	VerticalOptions="Center"
+                	ViewBoxWidth="80"
+                	ViewBoxHeight="80" />
+        </AbsoluteLayout>
 
     </ScrollView>
   
