@@ -15,7 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Veterinaria.Web.Data;
 using Veterinaria.Web.Data.Entities;
-using Veterinaria.Web.Helppers;
+using Veterinaria.Web.Helpers;
 
 namespace Veterinaria.Web
 {
@@ -44,13 +44,17 @@ namespace Veterinaria.Web
 
             services.AddIdentity<User, IdentityRole>(cfg =>
             {
+                cfg.Tokens.AuthenticatorTokenProvider = TokenOptions.DefaultAuthenticatorProvider;
+                cfg.SignIn.RequireConfirmedEmail = true;
                 cfg.User.RequireUniqueEmail = true;
                 cfg.Password.RequireDigit = false;
                 cfg.Password.RequiredUniqueChars = 0;
                 cfg.Password.RequireLowercase = false;
                 cfg.Password.RequireNonAlphanumeric = false;
                 cfg.Password.RequireUppercase = false;
-            }).AddEntityFrameworkStores<DataContext>();
+            })
+                .AddDefaultTokenProviders()
+                .AddEntityFrameworkStores<DataContext>();
 
 
             services.AddDbContext<DataContext>(cfg => {
@@ -74,7 +78,8 @@ namespace Veterinaria.Web
             services.AddScoped<ICombosHelper, CombosHelper>();
             services.AddScoped<IConverterHelper, ConverterHelper>();
             services.AddScoped<IImageHelper, ImageHelper>();
-
+            services.AddScoped<IMailHelper, MailHelper>();
+            services.AddScoped<IAgendaHelper, AgendaHelper>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 

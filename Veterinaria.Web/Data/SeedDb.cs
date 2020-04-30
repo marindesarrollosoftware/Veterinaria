@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Veterinaria.Web.Data.Entities;
-using Veterinaria.Web.Helppers;
+using Veterinaria.Web.Helpers;
 
 namespace Veterinaria.Web.Data
 {
@@ -23,7 +24,7 @@ namespace Veterinaria.Web.Data
         {
             await _dataContext.Database.EnsureCreatedAsync();
             await CheckRoles();
-            var manager = await CheckUserAsync("1010", "carlos", "marin", "carlos827@yahoo.com", "643774426", "Calle", "Admin");
+            var manager = await CheckUserAsync("1010", "carlos", "marin", "carlosarturomarinosorio@gmail.com", "643774426", "Calle", "Admin");
             var customer = await CheckUserAsync("2020", "carlos", "marin", "carlos827@hotmail.com", "643774426", "Calle", "Customer");
 
             await CheckPetTypesAsync();
@@ -31,7 +32,7 @@ namespace Veterinaria.Web.Data
             await CheckOwnersAsync(customer);
             await CheckManagerAsync(manager);
             await CheckPetsAsync();
-            await CheckAgendasAsync();
+            //await CheckAgendasAsync();
         }
 
         private async Task CheckRoles()
@@ -63,6 +64,10 @@ namespace Veterinaria.Web.Data
                 };
                 await _userHelper.AddUserAsync(user, "123456");
                 await _userHelper.AddUserToRoleAsync(user, role);
+
+                var token = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
+                await _userHelper.ConfirmEmailAsync(user, token);
+
             }
             return user;
         }
@@ -71,7 +76,7 @@ namespace Veterinaria.Web.Data
             if (!_dataContext.PetTypes.Any())
             {
                 _dataContext.PetTypes.Add(new PetType { Name = "Perro" });
-                _dataContext.PetTypes.Add(new PetType { Name = "Geto" });
+                _dataContext.PetTypes.Add(new PetType { Name = "Gato" });
                 await _dataContext.SaveChangesAsync();
             }
         }
@@ -109,19 +114,6 @@ namespace Veterinaria.Web.Data
             }
         }
 
-        //private void AddOwner(string document, string firstName, string lastName, string fixedPhone, string cellPhone, string address)
-        //{
-        //    _dataContext.Owners.Add(new Owner
-        //    {
-        //        Address = address,
-        //        CellPhone = cellPhone,
-        //        Document = document,
-        //        FirstName = firstName,
-        //        FixedPhone = fixedPhone,
-        //        LastName = lastName
-        //    });
-        //}
-
         private async Task CheckManagerAsync(User user)
         {
             if (!_dataContext.Managers.Any())
@@ -133,6 +125,31 @@ namespace Veterinaria.Web.Data
 
         private void AddPet(string name, Owner owner, PetType petType, string race)
         {
+            var histories = new List<History>
+            { 
+                new History
+                {
+                    Date = DateTime.Now,
+                    Description = "Consulta",
+                    Remarks = "Fusce gravida convallis tortor, non lobortis massa. Duis hendrerit mauris et lectus dapibus finibus. Etiam dictum molestie tortor et tincidunt. Nam viverra nunc vitae leo porta, et dapibus dui ultrices.",
+                    ServiceType = _dataContext.ServiceTypes.FirstOrDefault()
+                },new History
+                {
+                    Date = DateTime.Now,
+                    Description = "Consulta",
+                    Remarks = "Maecenas quis molestie sem, at convallis magna. Vestibulum euismod augue eu erat fringilla tempus. Phasellus vel ante interdum, bibendum tortor quis, sodales ex.",
+                    ServiceType = _dataContext.ServiceTypes.FirstOrDefault()
+                },
+                new History
+                {
+                    Date = DateTime.Now,
+                    Description = "Consulta",
+                    Remarks = "Quisque dapibus semper diam, vitae bibendum ex volutpat et. Proin eu posuere augue. Nulla at nisi purus. Proin a scelerisque orci. Ut sapien erat, tempor ac ligula sit amet, lobortis laoreet arcu.",
+                    ServiceType = _dataContext.ServiceTypes.FirstOrDefault()
+                }
+
+            };
+        
             _dataContext.Pets.Add(new Pet
             {
                 Born = DateTime.Now.AddYears(-2),

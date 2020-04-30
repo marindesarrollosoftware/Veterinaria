@@ -28,7 +28,7 @@ namespace Veterinaria.Web.Controllers.API
         [HttpGet]
         public IEnumerable<PetType> GetPetTypes()
         {
-            return _context.PetTypes;
+            return _context.PetTypes.OrderBy(pt => pt.Name);
         }      
     }
 }

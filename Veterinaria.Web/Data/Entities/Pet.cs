@@ -22,7 +22,7 @@ namespace Veterinaria.Web.Data.Entities
 
         public string ImageFullPath => string.IsNullOrEmpty(ImageUrl)
     ? null
-    : $"https://mdsveterinaria.azurewebsites.net{ImageUrl.Substring(1)}";
+    : $"https://webmds.azurewebsites.net{ImageUrl.Substring(1)}";
 
         [MaxLength(50, ErrorMessage = "The {0} field can not have more than {1} characters.")]
         public string Race { get; set; }

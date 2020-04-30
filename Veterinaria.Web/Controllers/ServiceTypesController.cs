@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using Veterinaria.Web.Data.Entities;
 
 namespace Veterinaria.Web.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ServiceTypesController : Controller
     {
         private readonly DataContext _context;
@@ -19,13 +21,11 @@ namespace Veterinaria.Web.Controllers
             _context = context;
         }
 
-        // GET: ServiceTypes
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.ServiceTypes.ToListAsync());
+            return View(_context.ServiceTypes);
         }
 
-        // GET: ServiceTypes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -43,18 +43,14 @@ namespace Veterinaria.Web.Controllers
             return View(serviceType);
         }
 
-        // GET: ServiceTypes/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: ServiceTypes/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name")] ServiceType serviceType)
+        public async Task<IActionResult> Create(ServiceType serviceType)
         {
             if (ModelState.IsValid)
             {
@@ -65,7 +61,6 @@ namespace Veterinaria.Web.Controllers
             return View(serviceType);
         }
 
-        // GET: ServiceTypes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -81,18 +76,10 @@ namespace Veterinaria.Web.Controllers
             return View(serviceType);
         }
 
-        // POST: ServiceTypes/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] ServiceType serviceType)
+        public async Task<IActionResult> Edit(ServiceType serviceType)
         {
-            if (id != serviceType.Id)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
                 try
@@ -116,7 +103,6 @@ namespace Veterinaria.Web.Controllers
             return View(serviceType);
         }
 
-        // GET: ServiceTypes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -131,15 +117,6 @@ namespace Veterinaria.Web.Controllers
                 return NotFound();
             }
 
-            return View(serviceType);
-        }
-
-        // POST: ServiceTypes/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var serviceType = await _context.ServiceTypes.FindAsync(id);
             _context.ServiceTypes.Remove(serviceType);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

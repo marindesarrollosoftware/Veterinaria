@@ -28,7 +28,7 @@ namespace Veterinaria.Web.Data.Entities
         public string Address { get; set; }
         public string FullName => $"{FirstName} {LastName}";
         [Display(Name = "Owner")]
-        public string FullNamewithDocument => $"{FirstName} {LastName} - {Document}";
+        public string FullNameWithDocument => $"{FirstName} {LastName} - {Document}";
 
     }
 }

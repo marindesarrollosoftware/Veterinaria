@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Veterinaria.Web.Data;
 using Veterinaria.Web.Data.Entities;
-using Veterinaria.Web.Helppers;
+using Veterinaria.Web.Helpers;
 using Veterinaria.Web.Models;
 
 namespace Veterinaria.Web.Controllers
@@ -21,12 +21,15 @@ namespace Veterinaria.Web.Controllers
         private readonly IUserHelper _userHelper;
         private readonly IConverterHelper _converterHelper;
         private readonly IImageHelper _iImageHelper;
+        private readonly IMailHelper _mailHelper;
 
         public OwnersController(
             DataContext context,
             ICombosHelper combosHelper,
             IUserHelper userHelper,
-            IConverterHelper converterHelper, IImageHelper iImageHelper
+            IConverterHelper converterHelper, 
+            IImageHelper iImageHelper,
+            IMailHelper mailHelper
             )
         {
             _dataContext = context;
@@ -34,6 +37,7 @@ namespace Veterinaria.Web.Controllers
             _userHelper = userHelper;
             _converterHelper = converterHelper;
             _iImageHelper = iImageHelper;
+            _mailHelper = mailHelper;
         }
 
         // GET: Owners
@@ -108,6 +112,18 @@ namespace Veterinaria.Web.Controllers
                     try
                     {
                         await _dataContext.SaveChangesAsync();
+
+                        var myToken = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
+                        var tokenLink = Url.Action("ConfirmEmail", "Account", new
+                        {
+                            userid = user.Id,
+                            token = myToken
+                        }, protocol: HttpContext.Request.Scheme);
+
+                        _mailHelper.SendMail(model.UserName, "Email confirmation", $"<h1>Email Confirmation</h1>" +
+                            $"To allow the user, " +
+                            $"plase click in this link:</br></br><a href = \"{tokenLink}\">Confirm Email</a>");
+
                         return RedirectToAction(nameof(Index));
                     }
                     catch (Exception ex)

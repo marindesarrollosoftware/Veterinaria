@@ -13,8 +13,8 @@ namespace Veterinaria.Web.Models
     {
         public int OwnerId { get; set; }
 
-        [Required(ErrorMessage = "The field {0} is mandatory")]
-        [Display(Name = "Pet type")]
+        [Required(ErrorMessage = "The field {0} is mandatory.")]
+        [Display(Name = "Pet Type")]
         [Range(1, int.MaxValue, ErrorMessage = "You must select a pet type.")]
         public int PetTypeId { get; set; }
 
@@ -22,6 +22,6 @@ namespace Veterinaria.Web.Models
         public IFormFile ImageFile { get; set; }
 
         public IEnumerable<SelectListItem> PetTypes { get; set; }
-
     }
+
 }
